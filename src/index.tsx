@@ -1,4 +1,4 @@
 import innet from 'innet'
-import App from './App'
+import App from './app'
 
 innet(<App />)
