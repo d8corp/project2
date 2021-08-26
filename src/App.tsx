@@ -1,4 +1,4 @@
-import {state} from '@watch-state/decorators'
+import { state } from '@watch-state/decorators'
 import styles from './App.scss'
 
 class App {
