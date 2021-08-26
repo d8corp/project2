@@ -1,82 +1,55 @@
-# innet get start
-To start developing run this
+# Задача
+
+Написать 2 виджета которые могут отобразится на странице сайта. В качестве источника данных использовать приложенный файл данных.
+
+### Первый - виджет фильтр:
+
+на вход может принимать данные в формате как у данных в приложенном файле. Может отрисовать набор контролов для фильтрации, задаются конфигом виджета 1 контрол => 1 колонка данных. Варианты значений для контролов формируются на основе уникальных значений соответствующих колонок данных. При изменение контролов должен фильтроваться набор данных по полученным значениям из контролов.
+
+### Второй - виджет отображения данных.
+
+Варианты отображения на выбор таблица или какой-то отформатированный список, внешний вид задается конфигурацией виджета. Например набор видимых колонок таблицы или шаблон элемента списка.
+
+
+Обязательное условие виджеты должны умет взаимодействовать то есть виджет фильтр можно настроить так чтобы он выступал как источник данных для виджетам визуализации (все это через конфигурацию виджетов). К одному фильтру можно подключить неограниченное количество виджетов визуализации. Также и фильтров может быть несколько на странице. Виджеты визуализации должны уметь перерисовываться когда в фильтре меняются значения контролов. Также виджеты визуализации должны напрямую уметь принимать данные и просто их отображать как есть без какой либо динамики.
+
+Запрещено использовать фреймворки и библиотеки типа React.js. Только чистый JS. Можно использовать сборщики типа webpack. Разрешенные библиотеки jQuery, underscore.js(lodash.js), moment.js. Использовать синтаксис ES6. Браузеры крайние версии Chrome, Firefox. Код выложить на любой удобный публичный репозиторий(Githab, gitlab, bitbacket)
+
+Пример реализации
+
+
+
+## Решение
+
+Все зависимости в `dependencies` и `devDependencies` написаны лично мной, могу пояснить за любую строчку кода,
+по этому решил что имею право это использовать, тем более когда разрешено использовать `JQuery`.
+Не совсем понятно что значит виджет, если имелось ввиду `iframe` и `postMessage` то не обессудьте,
+добавить их не составит больших сложностей.
+
+## Установка
+
+Выполнить следующую команду в директории проекта.
+
+```shell
+npm i
+```
+
+*Должен быть установлен [Node.js](https://nodejs.org/)*
+
+# Запуск
+
+Выполнить следующую команду в директории проекта.
+
 ```bash
 npm start
 ```
-To build production run this
+
+*После запуска, в папке `public` появится папка `build` в которой вы найдете js и css файлы проекта*
+
+## Сборка
+
+Выполнить следующую команду в директории проекта, что бы собрать готовое и минифицированное приложение в той же папке `public`.
+
 ```bash
 npm run build
-```
-*You can find the production bundle in `public` folder*
-
-### TypeScript
-The main file is `index.js` (`index.ts`, `index.tsx`) from `src` folder.  
-You can import `.js`, `.ts` or `.tsx` files into any script file.  
-So you can use `TypeScript` or not or use somewhere.  
-If you don't want to use `TypeScript`,
-you can remove `tsconfig.json` and `declaration.d.ts`.
-
-### SCSS
-You can import `.css` or `.scss` into a script.
-So you can use `SCSS` or not.
-```typescript jsx
-import './index.css'
-import './index.scss'
-```
-### JSON
-You can import `.json` file into a script.
-```typescript jsx
-import settings from './settings.json'
-```
-### HTTPS
-Add `localhost.crt` and `localhost.key` to the root of the application to use HTTPS.
-### base path of imports
-You can use `/` to get root of src.
-```typescript
-import App from '/components/App'
-```
-The same:
-```typescript
-import App from 'src/components/App'
-```
-The same for index file.
-```typescript
-import App from './components/App'
-```
-### .env
-You can create and set up `.env` file to change some features.  
-These options are used by default.
-```dotenv
-# you can use remote API, for example PROXY=https://localhost:9000
-PROXY=false
-
-# you can set remote API URL beginning, for example API=/api/?*
-API=*
-
-# you can change the static server port
-PORT=3000
-
-# you can change directory and file name of ssl certificates
-SSL_CRT_FILE=localhost.crt
-SSL_KEY_FILE=localhost.key
-
-# add the next key if you get "Error: self signed certificate"
-# NODE_TLS_REJECT_UNAUTHORIZED=0
-
-# you can generate sourcemap for production build
-GENERATE_SOURCEMAP=false
-
-# by default index.js includes all styles,
-# but you can keep styles into index.css with CSS_EXTRACT=true
-CSS_IN_JS=false
-
-# import styles from './App.css'
-# you can use css modules with CSS_MODULES=true
-CSS_MODULES=false
-
-# you can change the public folder
-PUBLIC_FOLDER=public
-
-# you can change the folder of scripts
-BUILD_FOLDER=public/build
 ```
