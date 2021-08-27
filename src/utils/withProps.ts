@@ -1,7 +1,7 @@
 import { Component, Children, Props } from 'innet'
 
 export interface PropsComponent <P extends Props> extends Component<P> {
-  props: P
+  props?: P
 }
 
 export interface PropsComponentConstructor <P extends Props> {

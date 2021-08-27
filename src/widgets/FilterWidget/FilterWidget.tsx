@@ -12,7 +12,7 @@ export default class FilterWidget <P extends FilterWidgetProps> extends DemoWidg
     return (
       <for of={() => props.controller.cols} key='code'>
         {(col: Column, index) => !this.columns.includes(index()) && (
-          <Input type={col.type} name={col.code} onChange={v => this.onChange(v, index())}>
+          <Input type={col.type} values={col.values} name={col.code} onChange={v => this.onChange(v, index())}>
             {col.label}
           </Input>
         )}

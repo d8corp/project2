@@ -4,6 +4,7 @@ export interface Column {
   code: string
   label: string
   type: string
+  values?: any[]
 }
 
 export interface Data {
@@ -15,7 +16,7 @@ export type Types = Record<string, (value, filter: string) => any>
 
 export const types: Types = {
   string: (value: string, filter: string) => value.toLowerCase().includes(filter.toLowerCase()),
-  number: (value: number, filter: string) => value + '' === filter
+  number: (value: number, filter: string) => value + '' === filter,
 }
 
 export class DemoWidgetController <D extends Data = Data> {
@@ -27,6 +28,30 @@ export class DemoWidgetController <D extends Data = Data> {
   }
 
   setData (data: D) {
+    // TODO: Попросить изменить API, после чего можно будет удалить следующий код
+    const { columns } = data
+
+    for (let i = 0; i < columns.length; i++) {
+      if (columns[i].type === 'string') {
+        const rows = data.data
+        const cache = Object.create(null)
+
+        for (let j = 0; j < rows.length; j++) {
+          const value = rows[j][i]
+
+          if (value in cache) {
+            columns[i].type = 'select'
+          } else {
+            cache[value] = true
+          }
+        }
+
+        if (columns[i].type === 'select') {
+          columns[i].values = Object.keys(cache)
+        }
+      }
+    }
+
     this.data = data
   }
 

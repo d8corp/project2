@@ -7,14 +7,25 @@ import data from './data.json'
 import styles from './App.scss'
 
 export default class App {
-  controller = new DemoWidgetController(data)
+  controller1 = new DemoWidgetController(data)
+  controller2 = new DemoWidgetController(data)
 
   render () {
     return (
-      <div class={styles.root}>
-        <FilterWidget controller={this.controller} exclude={['id']} />
-        <TableWidget controller={this.controller} />
-      </div>
+      <main class={styles.root}>
+        <section class={styles.section}>
+          <h3>Demo 1</h3>
+          <FilterWidget controller={this.controller1} exclude={['value']} />
+          <hr />
+          <TableWidget controller={this.controller1} />
+        </section>
+        <section class={styles.section}>
+          <h3>Demo 2</h3>
+          <FilterWidget controller={this.controller2} exclude={['id']} />
+          <hr />
+          <TableWidget controller={this.controller2} exclude={['id']} />
+        </section>
+      </main>
     )
   }
 }
