@@ -14,15 +14,13 @@ export default class App {
     return (
       <main class={styles.root}>
         <section class={styles.section}>
-          <h3>Demo 1</h3>
+          <h3 class={styles.header}>Demo 1</h3>
           <FilterWidget controller={this.controller1} exclude={['value']} />
-          <hr />
-          <TableWidget controller={this.controller1} />
+          <TableWidget controller={this.controller1} size={5} />
         </section>
         <section class={styles.section}>
-          <h3>Demo 2</h3>
+          <h3 class={styles.header}>Demo 2</h3>
           <FilterWidget controller={this.controller2} exclude={['id']} />
-          <hr />
           <TableWidget controller={this.controller2} exclude={['id']} />
         </section>
       </main>

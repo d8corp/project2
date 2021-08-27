@@ -6,6 +6,7 @@
   position: relative;
   padding: 4px;
   border-radius: 4px;
+  background: #fff;
 }
 
 .label {
@@ -35,8 +36,10 @@
 .dateFrom,
 .select,
 .input {
-  height: 16px;
+  height: 20px;
+  padding: 0;
   border: none;
+  background: #fff;
 
   &:focus {
     outline: none;

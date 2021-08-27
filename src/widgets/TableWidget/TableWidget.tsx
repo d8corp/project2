@@ -7,7 +7,7 @@ export interface TableWidgetProps extends DemoWidgetProps {
 }
 
 const formatters = {
-  unixtimestamp: value => new Date(value * 1000).toLocaleString()
+  unixtimestamp: value => new Date(value * 1000).toLocaleString(),
 }
 
 export default class TableWidget <P extends TableWidgetProps> extends DemoWidget<P> {
@@ -21,7 +21,7 @@ export default class TableWidget <P extends TableWidgetProps> extends DemoWidget
     return value
   }
 
-  render ({ controller }: P) {
+  render ({ controller, size }: P) {
     return (
       <table class={styles.root}>
         <tr class={styles.header}>
@@ -33,7 +33,7 @@ export default class TableWidget <P extends TableWidgetProps> extends DemoWidget
             )}
           </for>
         </tr>
-        <for of={() => controller.rows} key='0'>
+        <for of={() => controller.rows} size={size}>
           {data => (
             <tr class={styles.row}>
               <for of={data}>
