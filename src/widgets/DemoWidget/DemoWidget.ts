@@ -12,11 +12,26 @@ export interface Data {
   data: any[][]
 }
 
-export type Types = Record<string, (value, filter: string) => any>
+export type Types = Record<string, (value, filter: string) => unknown>
 
-export const types: Types = {
+export const typeFilters: Types = {
   string: (value: string, filter: string) => value.toLowerCase().includes(filter.toLowerCase()),
   number: (value: number, filter: string) => value + '' === filter,
+  unixtimestamp: (value: number, filter: string) => {
+    if (filter === '0|0') return true
+
+    const [from, to] = filter.split('|').map(val => +val)
+
+    if (from && value < from) {
+      return false
+    }
+
+    if (to && value > to) {
+      return false
+    }
+
+    return true
+  },
 }
 
 export class DemoWidgetController <D extends Data = Data> {
@@ -79,8 +94,8 @@ export class DemoWidgetController <D extends Data = Data> {
         const value = row[i]
         const { type } = columns[i]
 
-        if (type in types) {
-          if (!types[type](value, filter)) {
+        if (type in typeFilters) {
+          if (!typeFilters[type](value, filter)) {
             return false
           }
         } else if (filter && value !== filter) {

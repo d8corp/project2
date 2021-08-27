@@ -4,14 +4,8 @@ import styles from './Input.scss'
 
 export interface InputProps {
   type?: string
-  name?: string
   values?: any[]
   onChange?: (value: any) => any
-}
-
-export const typesOverride = {
-  number: 'number',
-  unixtimestamp: 'date',
 }
 
 @withProps
@@ -30,17 +24,12 @@ export default class Input <P extends InputProps> {
     )
   }
 
-  get type () {
-    const { type } = this.props
-    return type in typesOverride ? typesOverride[type] : 'text'
-  }
-
   get input () {
-    const { type, name, values } = this.props
+    const { type, values } = this.props
 
     if (type === 'select') {
       return (
-        <select name={name} oninput={this.onChange}>
+        <select class={styles.select} oninput={this.onChange}>
           <option />
           {values && (
             <for of={values}>
@@ -55,8 +44,28 @@ export default class Input <P extends InputProps> {
       )
     }
 
+    if (type === 'unixtimestamp') {
+      let from = 0
+      let to = 0
+
+      const onChange = () => this.props.onChange?.(`${from}|${to}`)
+
+      return (
+        <span class={styles.date}>
+          <input class={styles.dateFrom} type='date' oninput={e => {
+            from = (new Date(e.target.value).getTime() / 1000) | 0
+            onChange()
+          }} />
+          <input class={styles.dateTo} type='date' oninput={e => {
+            to = (new Date(e.target.value).getTime() / 1000) | 0
+            onChange()
+          }} />
+        </span>
+      )
+    }
+
     return (
-      <input name={name} class={styles.input} type={this.type} oninput={this.onChange} />
+      <input class={styles.input} type={this.props.type} oninput={this.onChange} />
     )
   }
 
