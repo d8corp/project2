@@ -1,9 +1,10 @@
 {
   "scripts": {
-    "build": "npx innetjs build",
-    "start": "npx innetjs start"
+    "build": "innetjs build",
+    "start": "innetjs start"
   },
   "dependencies": {
+    "@innet/for": "^0.2.1",
     "@watch-state/decorators": "^1.2.2",
     "innet": "^0.3.0",
     "watch-state": "^3.3.3"
@@ -16,6 +17,6 @@
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
-    "innetjs": "^1.7.3"
+    "innetjs": "^1.7.4"
   }
 }

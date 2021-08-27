@@ -1,23 +1,20 @@
-import { state } from '@watch-state/decorators'
+import { DemoWidgetController } from '/widgets/DemoWidget'
+import FilterWidget from '/widgets/FilterWidget'
+import TableWidget from '/widgets/TableWidget'
+
+import data from './data.json'
+
 import styles from './App.scss'
 
-class App {
-  @state name = 'World'
+export default class App {
+  controller = new DemoWidgetController(data)
 
   render () {
     return (
       <div class={styles.root}>
-        <h1 class={styles.header}>
-          Hello{() => this.name ? `, ${this.name}` : ''}!
-        </h1>
-        <input
-          class={styles.input}
-          oninput={e => this.name = e.target.value}
-          placeholder='Enter your name'
-        />
+        <FilterWidget controller={this.controller} exclude={['id']} />
+        <TableWidget controller={this.controller} exclude={['value']} />
       </div>
     )
   }
 }
-
-export default App
