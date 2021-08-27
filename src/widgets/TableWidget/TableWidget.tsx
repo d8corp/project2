@@ -12,7 +12,7 @@ const formatters = {
 
 export default class TableWidget <P extends TableWidgetProps> extends DemoWidget<P> {
   formatValue (value, index: number) {
-    const formatter = formatters[this.props.controller.data.columns[index].type]
+    const formatter = formatters[this.props.controller.cols[index].type]
 
     if (formatter) {
       return formatter(value)
@@ -25,19 +25,19 @@ export default class TableWidget <P extends TableWidgetProps> extends DemoWidget
     return (
       <table class={styles.root}>
         <tr class={styles.header}>
-          <for of={() => controller.data.columns} key='code'>
-            {(col: Column, index) => !this.hideColumns.includes(index()) && (
+          <for of={() => controller.cols} key='code'>
+            {(col: Column, index) => !this.columns.includes(index()) && (
               <th class={styles.th}>
                 {col.label}
               </th>
             )}
           </for>
         </tr>
-        <for of={() => controller.columns} key='0'>
+        <for of={() => controller.rows} key='0'>
           {data => (
             <tr class={styles.row}>
               <for of={data}>
-                {(value, index) => !this.hideColumns.includes(index) && (
+                {(value, index) => !this.columns.includes(index) && (
                   <td class={styles.td}>
                     {this.formatValue(value, index)}
                   </td>

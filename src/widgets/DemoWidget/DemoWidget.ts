@@ -1,4 +1,4 @@
-import { cache, state } from '@watch-state/decorators'
+import { cache, getDecors, state } from '@watch-state/decorators'
 
 export interface Column {
   code: string
@@ -14,19 +14,32 @@ export interface Data {
 export type Types = Record<string, (value, filter: string) => any>
 
 export const types: Types = {
-  string: (value: string, filter: string) => value.includes(filter),
+  string: (value: string, filter: string) => value.toLowerCase().includes(filter.toLowerCase()),
   number: (value: number, filter: string) => value + '' === filter
 }
 
 export class DemoWidgetController <D extends Data = Data> {
-  @state data: D
-  @state filters: any[] = []
+  @state protected data: D
+  @state protected filters: any[] = []
 
   constructor (data: D) {
+    this.setData(data)
+  }
+
+  setData (data: D) {
     this.data = data
   }
 
-  @cache get columns () {
+  setFilterByIndex (index, value) {
+    this.filters[index] = value
+    getDecors(this).filters.update()
+  }
+
+  get cols () {
+    return this.data.columns
+  }
+
+  @cache get rows () {
     const { filters } = this
     const { data, columns } = this.data
 
@@ -63,14 +76,14 @@ export interface DemoWidgetProps {
 export default class DemoWidget <P extends DemoWidgetProps> {
   constructor (public props: P) {}
 
-  @cache get hideColumns () {
+  @cache get columns () {
     const { exclude } = this.props
-    const { columns } = this.props.controller.data
+    const { cols } = this.props.controller
     const result: number[] = []
 
     if (exclude) {
-      for (let i = 0; i < columns.length; i++) {
-        if (exclude.includes(columns[i].code)) {
+      for (let i = 0; i < cols.length; i++) {
+        if (exclude.includes(cols[i].code)) {
           result.push(i)
         }
       }

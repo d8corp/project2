@@ -13,7 +13,7 @@ export default class App {
     return (
       <div class={styles.root}>
         <FilterWidget controller={this.controller} exclude={['id']} />
-        <TableWidget controller={this.controller} exclude={['value']} />
+        <TableWidget controller={this.controller} />
       </div>
     )
   }
