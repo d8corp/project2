@@ -11,11 +11,47 @@ export interface Data {
   data: any[][]
 }
 
+export type Types = Record<string, (value, filter: string) => any>
+
+export const types: Types = {
+  string: (value: string, filter: string) => value.includes(filter),
+  number: (value: number, filter: string) => value + '' === filter
+}
+
 export class DemoWidgetController <D extends Data = Data> {
   @state data: D
+  @state filters: any[] = []
 
   constructor (data: D) {
     this.data = data
+  }
+
+  @cache get columns () {
+    const { filters } = this
+    const { data, columns } = this.data
+
+    if (!filters.length) return data
+
+    return data.filter(row => {
+      for (let i = 0; i < filters.length; i++) {
+        const filter = filters[i]
+
+        if (!filter) continue
+
+        const value = row[i]
+        const { type } = columns[i]
+
+        if (type in types) {
+          if (!types[type](value, filter)) {
+            return false
+          }
+        } else if (filter && value !== filter) {
+          return false
+        }
+      }
+
+      return true
+    })
   }
 }
 

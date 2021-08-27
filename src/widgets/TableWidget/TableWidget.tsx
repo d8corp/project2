@@ -1,27 +1,45 @@
 import DemoWidget, { DemoWidgetProps, Column } from '/widgets/DemoWidget'
 
-export interface TableWidgetProps extends DemoWidgetProps {}
+import styles from './TableWidget.scss'
+
+export interface TableWidgetProps extends DemoWidgetProps {
+  size?: number
+}
+
+const formatters = {
+  unixtimestamp: value => new Date(value * 1000).toLocaleString()
+}
 
 export default class TableWidget <P extends TableWidgetProps> extends DemoWidget<P> {
-  render ({ controller }) {
+  formatValue (value, index: number) {
+    const formatter = formatters[this.props.controller.data.columns[index].type]
+
+    if (formatter) {
+      return formatter(value)
+    }
+
+    return value
+  }
+
+  render ({ controller }: P) {
     return (
-      <table>
-        <tr>
+      <table class={styles.root}>
+        <tr class={styles.header}>
           <for of={() => controller.data.columns} key='code'>
             {(col: Column, index) => !this.hideColumns.includes(index()) && (
-              <th>
+              <th class={styles.th}>
                 {col.label}
               </th>
             )}
           </for>
         </tr>
-        <for of={() => controller.data.data} key='0'>
+        <for of={() => controller.columns} key='0'>
           {data => (
-            <tr>
+            <tr class={styles.row}>
               <for of={data}>
                 {(value, index) => !this.hideColumns.includes(index) && (
-                  <td>
-                    {value}
+                  <td class={styles.td}>
+                    {this.formatValue(value, index)}
                   </td>
                 )}
               </for>

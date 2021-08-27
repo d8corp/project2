@@ -1,7 +1,7 @@
 import { Component } from 'innet'
 
 export interface ChildrenComponent <C> extends Component<any, C> {
-  children?: C
+  children: C
 }
 
 export interface ChildrenComponentConstructor <C> {
